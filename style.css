@@ -1,0 +1,614 @@
+:root {
+  --success: #4caf50;
+  --neutral: #ffc107;
+  --fail: #f44336;
+  --bg: #e8f5e9;
+  --card: #ffffff;
+  --accent: #1976d2;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  touch-action: manipulation;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: var(--accent);
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+#date {
+  font-size: 1.3rem;
+  color: #555;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.progress {
+  width: 100%;
+  max-width: 600px;
+  background: var(--card);
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.streak-text {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.days {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.day-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.4rem;
+  transition: all 0.3s ease;
+}
+
+.day-circle.success {
+  background: var(--success);
+  color: white;
+  transform: scale(1.12);
+}
+.day-circle.neutral {
+  background: var(--neutral);
+  color: black;
+}
+.day-circle.fail {
+  background: var(--fail);
+  color: white;
+}
+.day-circle.active {
+  border: 4px solid var(--accent);
+  animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(25, 118, 210, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 14px rgba(25, 118, 210, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(25, 118, 210, 0);
+  }
+}
+
+table {
+  width: 100%;
+  max-width: 600px;
+  background: var(--card);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  table-layout: fixed;
+}
+
+td {
+  padding: 16px 12px;
+  font-size: 1.18rem;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+}
+
+td:first-child {
+  font-weight: bold;
+  color: #1565c0;
+  width: 68%;
+}
+/* Button-Gruppe */
+.btn-group {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 22px;
+  border: none;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  background: #aaa; /* GRAU am Anfang */
+  opacity: 0.7;
+}
+
+.btn:active {
+  transform: scale(0.94);
+}
+
+/* Beim Klick: Farbe erscheint + Hervorhebung */
+.btn.selected {
+  opacity: 1;
+  transform: scale(1.08);
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.4);
+}
+
+/* Farben nur bei .selected! */
+.btn-success.selected {
+  background: #4caf50;
+}
+.btn-neutral.selected {
+  background: #ffc107;
+  color: #000;
+}
+.btn-fail.selected {
+  background: #f44336;
+}
+
+/* Nicht ausgewählte & deaktivierte: grau */
+.btn:disabled:not(.selected) {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+/* Farben */
+.btn-success {
+  background: #4caf50;
+}
+.btn-neutral {
+  background: #ffc107;
+  color: #000;
+}
+.btn-fail {
+  background: #f44336;
+}
+
+@keyframes clickPop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1.08);
+  }
+}
+
+.btn.selected {
+  animation: clickPop 0.4s ease;
+}
+/* Responsive */
+@media (max-width: 500px) {
+  .btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+}
+.actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 22px 0;
+}
+
+.actions button {
+  padding: 15px 22px;
+  font-size: 1.15rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  color: white;
+  min-width: 130px;
+}
+
+.btn-all {
+  background: var(--accent);
+}
+.btn-export {
+  background: #6a1b9a;
+}
+.btn-reset {
+  background: #e64a19;
+}
+.btn-install {
+  background: #388e3c;
+}
+
+.btn:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+.btn.selected:disabled {
+  opacity: 1 !important;
+}
+
+.sticker-gallery {
+  margin: 22px 0;
+  padding: 18px;
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  text-align: center;
+}
+
+.sticker-gallery h3 {
+  margin-bottom: 12px;
+  color: var(--accent);
+  font-size: 1.4rem;
+}
+
+.stickers {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.sticker {
+  font-size: 2.6rem;
+  margin: 6px;
+  transition: all 0.4s ease;
+}
+
+.sticker.unlocked {
+  filter: none;
+  opacity: 1;
+  animation: pop 0.6s ease;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.82);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-card {
+  background: white;
+  padding: 32px;
+  border-radius: 22px;
+  text-align: center;
+  max-width: 90%;
+  animation: bounce 0.7s ease;
+}
+
+.modal-card h2 {
+  font-size: 2.3rem;
+  margin-bottom: 16px;
+  color: var(--accent);
+}
+
+.modal-card p {
+  font-size: 1.3rem;
+  margin: 12px 0;
+}
+
+#new-sticker {
+  font-size: 4.5rem;
+  margin: 20px 0;
+}
+
+.modal-card input {
+  padding: 14px;
+  font-size: 1.5rem;
+  text-align: center;
+  margin: 16px 0;
+  width: 140px;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  font-family: monospace;
+}
+
+.modal-card button {
+  margin: 8px;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-28px);
+  }
+}
+
+@media (max-width: 500px) {
+  h1 {
+    font-size: 2rem;
+  }
+  .day-circle {
+    width: 42px;
+    height: 42px;
+    font-size: 1.1rem;
+  }
+  td {
+    padding: 12px 8px;
+    font-size: 1.05rem;
+  }
+  .btn {
+    padding: 9px 11px;
+    font-size: 0.95rem;
+    min-width: 68px;
+  }
+  .actions button {
+    padding: 12px 18px;
+    font-size: 1rem;
+  }
+  .sticker {
+    font-size: 2.1rem;
+  }
+  .modal-card h2 {
+    font-size: 1.9rem;
+  }
+  #new-sticker {
+    font-size: 3.5rem;
+  }
+}
+
+/* --- Sticker Galerie Anpassungen --- */
+
+/* Größe der einzelnen Sticker in der Galerie */
+.sticker-gallery .sticker {
+  width: 65px;
+  height: 65px;
+  object-fit: contain;
+  margin: 5px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  /* Optional: Leichter Schatten und Layout-Optimierung */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sticker-gallery {
+  padding: 10px;
+  border-radius: 10px;
+  background: #f0f0f0;
+  margin-top: 20px;
+}
+
+.sticker-gallery .stickers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Styling für gesperrte (ausgegraute) Sticker */
+.sticker.locked {
+  filter: grayscale(100%);
+  opacity: 0.3;
+}
+
+/* Styling für freigeschaltete (farbige) Sticker */
+.sticker.unlocked {
+  filter: grayscale(0%); /* Entfernt den Graustufen-Filter */
+  opacity: 1; /* Stellt die volle Opazität wieder her */
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.6); /* Optional: Ein kleiner grüner Glanz */
+}
+
+/* ======================================= */
+/* DEFINITIVE KALENDER-STYLES & EDITIER-MODUS */
+/* ======================================= */
+
+/* Haupt-Container-Stil */
+.kalender-card {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.kalender-card h3 {
+  font-size: 1.5rem;
+  color: var(--accent);
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Wochentags-Navigation */
+.day-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.day-nav-btn {
+  background-color: #f0f0f0;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.day-nav-btn.active {
+  background-color: var(--accent);
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Tabellen-Stil */
+.kalender-card table {
+  width: 100%;
+  /* WICHTIG: Linien werden nur einmal gezeichnet (Lösung für Spalten/Zeilen-Problem) */
+  border-collapse: collapse;
+  margin: 0;
+  /* Äußere Rahmenlinie */
+  border: 1px solid #ccc;
+}
+
+/* Tabellen-Header */
+.kalender-card th {
+  background-color: var(--accent);
+  color: white;
+  padding: 12px 10px;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: bold;
+  border: 1px solid var(--accent);
+}
+
+/* Tabellen-Zellen (Inhalt) */
+.kalender-card td {
+  padding: 0; /* Padding wird von Input-Feldern übernommen, wenn im Edit-Modus */
+  /* WICHTIG: Linien zwischen allen Zellen */
+  border: 1px solid #ddd;
+  text-align: left;
+  font-size: 1.05rem;
+  vertical-align: middle;
+}
+.kalender-card td:not(.pause) {
+  /* Fügt Padding im Ansichtsmodus hinzu, wo keine Inputs sind */
+  padding: 10px;
+}
+
+/* Styling für Eingabefelder im Editier-Modus */
+.kalender-card .time-input,
+.kalender-card .text-input {
+  width: 100%;
+  border: none; /* Entfernt den inneren Input-Border, nutzt den TD-Border */
+  padding: 10px;
+  margin: 0;
+  box-sizing: border-box;
+  font-size: 1.05rem;
+  background: transparent; /* Macht den Input-Hintergrund unsichtbar */
+}
+/* Stellt sicher, dass das erste TD (Zeit) nicht zu schmal wird */
+.kalender-card td:first-child {
+  width: 20%;
+}
+/* Stellt sicher, dass Pausen-Zellen korrekt aussehen */
+.kalender-card .pause td {
+  border-color: #e0e0e0;
+}
+.kalender-card .pause .text-input {
+  text-align: center;
+}
+
+/* ======================================= */
+/* ENTFERNTE INLINE-STYLES ALS CSS-KLASSEN */
+/* ======================================= */
+
+/* Header */
+.header {
+  background: var(--accent);
+  color: white;
+  padding: 15px;
+  margin-bottom: 15px;
+  text-align: center;
+  border-radius: 15px;
+}
+
+.header h1 {
+  color: white;
+  margin-bottom: 0;
+}
+
+.header #date {
+  color: white;
+  margin-top: 5px;
+}
+
+/* Button-Container */
+.top-button-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* Zurück-Button */
+.actions-btn {
+  flex-grow: 1;
+  text-align: center;
+  background: #f44336;
+  color: white;
+  padding: 12px 20px;
+  font-size: 1.15rem;
+  font-weight: bold;
+  border-radius: 15px;
+  border: none;
+  text-decoration: none;
+}
+
+/* Bearbeiten-Button */
+#toggleEditBtn {
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 15px 20px;
+  color: white;
+  padding: 12px 20px;
+  font-size: 1.15rem;
+  font-weight: bold;
+  border-radius: 15px;
+  border: none;
+  text-decoration: none;
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <!-- PWA Manifest -->
+<link rel="manifest" href="/manifest/manifest.json">
+
+<!-- Theme-Farbe (Android) -->
+<meta name="theme-color" content="#4CAF50">
+
+<!-- iOS Web-App Aktivierung -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Schul-Check">
+
+<!-- iOS App Icon -->
+<link rel="apple-touch-icon" href="/assets/icons/icon-180.png">
+
+<!-- Fallback Icon -->
+<link rel="icon" href="/assets/icons/icon-192.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schul-Check-Kalender</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="kalender-body">
+
+    <div class="header">
+        <h1>Stundenplan</h1>
+        <p id="date"></p>
+    </div>
+
+    <div class="top-button-row">
+        <a href="index.html" class="actions-btn">
+            Zurück zur Checkliste 📝
+        </a>
+    </div>
+    <div id="schulkalender-container" class="kalender-card">
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        renderSchulkalender();
+        if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/sw.js")
+        .then(() => console.log("Service Worker aktiv!"))
+        .catch(err => console.error("SW Fehler:", err));
+}a
+    </script>
+</body>
+
+</html>

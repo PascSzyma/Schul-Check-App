@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest/manifest.json">
+
+    <!-- Theme-Farbe (Android) -->
+    <meta name="theme-color" content="#4CAF50">
+
+    <!-- iOS Web-App Aktivierung -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Schul-Check">
+
+    <!-- iOS App Icon -->
+    <link rel="apple-touch-icon" href="/assets/icons/icon-180.png">
+
+    <!-- Fallback Icon -->
+    <link rel="icon" href="/assets/icons/icon-192.png" type="image/png">
+    <title>Schul-Check App</title>
+    <link rel="manifest" href="data:application/manifest+json,{
+        'name': 'Schul-Check',
+        'short_name': 'SchulCheck',
+        'start_url': '.',
+        'display': 'standalone',
+        'background_color': '#ffffff',
+        'theme_color': '#4CAF50',
+        'icons': [{'src': 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiBmaWxsPSIjNENBRjUwIi8+Cjx0ZXh0IHg9Ijk2IiB5PSIxMDYiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI0OCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIwLjNlbSI+8J+PgTwvdGV4dD4KPC9zdmc+', 'sizes': '192x192', 'type': 'image/svg+xml'}]
+    }">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Schul-Check-Zeit</h1>
+    <p id="date"></p>
+    <a href="kalender.html" class="actions-btn"
+        style="display: block; text-align: center; background:var(--accent); color:white; padding: 12px 20px; font-size: 1.15rem; font-weight: bold; border-radius: 14px; border:none; max-width: 600px; margin: 0 auto 20px auto; text-decoration: none;">
+        Stundenplan anzeigen 📅
+    </a>
+    <div class="progress">
+        <div class="streak-text">Erfolgreiche Tage: <strong id="streak">0</strong>/5</div>
+        <div class="days" id="days-container"></div>
+    </div>
+
+
+    <table id="checklist"></table>
+
+    <div class="actions">
+        <button class="btn-all" onclick="checkAllSuccess()">Alle erledigt!</button>
+        <button class="btn-export" onclick="exportData()">Teilen</button>
+        <button class="btn-reset" onclick="showResetMenu()">Tag zurücksetzen</button>
+        <button class="btn-install" id="installBtn" style="display:none;">App installieren</button>
+
+        <button class="btn-toggle" id="speechToggle" onclick="toggleSpeech()">Sprache: AN</button>
+
+        <button id="confirmDayBtn" class="btn-confirm" style="display:none; background:#1976D2; margin-top:15px;"
+            onclick="confirmDay()">
+            Tag abschließen
+        </button>
+    </div>
+    <div class="modal" id="resetMenuModal">
+        <div class="modal-card">
+            <h2>Zurücksetzen</h2>
+            <p>Wähle einen abgeschlossenen Tag zum Zurücksetzen oder die Komplett-Löschung.</p>
+
+            <ul id="historyList" style="list-style:none; padding:0; margin-bottom: 20px;">
+            </ul>
+
+            <button style="background:#F44336; color:white; margin-bottom: 10px;"
+                onclick="hideModal('resetMenuModal'); resetAll()">
+                🔴 Alle Daten löschen (PIN nötig)
+            </button>
+
+            <button style="background:#9E9E9E; color:white;" onclick="hideModal('resetMenuModal')">
+                Abbrechen
+            </button>
+        </div>
+    </div>
+
+    <!-- Belohnung -->
+    <div class="modal" id="reward">
+        <div class="modal-card">
+            <h2>Sticker freigeschaltet!</h2>
+            <p id="reward-text">Super Leistung!</p>
+            <div id="new-sticker" style="min-height: 100px; margin: 15px 0;"></div>
+            <button style="background:#4CAF50; color:white;" onclick="hideModal('reward')">Weiter</button>
+        </div>
+    </div>
+    <div class="sticker-gallery">
+        <h3>Sticker-Sammlung</h3>
+        <div class="stickers" id="stickers"></div>
+    </div>
+
+    <!-- PIN Modal -->
+    <div class="modal" id="pinModal">
+        <div class="modal-card">
+            <h2>Eltern-PIN</h2>
+            <input type="password" id="pinInput" maxlength="4" placeholder="****" inputmode="numeric" />
+            <div>
+                <button style="background:#4CAF50; color:white;"
+                    onclick="checkPin(document.getElementById('pinInput').dataset.resetType)">OK</button>
+                <button style="background:#F44336; color:white;" onclick="checkPin('cancel')">Abbrechen</button>
+            </div>
+        </div>
+    </div>
+    <!-- Erfolgs-Sticker -->
+    <div id="sticker"
+        style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:9998; justify-content:center; align-items:center; background:rgba(0,0,0,0.3); width:100%; height:100%;">
+        <img src="assets/images/yeah.png" alt="Erfolg!" width="180"
+            style="animation: pop 0.6s ease; border-radius:20px; box-shadow:0 0 20px gold;">
+    </div>
+
+    <script src="script.js"></script>
+    <script>if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("/sw.js")
+                .then(() => console.log("Service Worker aktiv!"))
+                .catch(err => console.error("SW Fehler:", err));
+        }</script>
+</body>
+
+</html>
